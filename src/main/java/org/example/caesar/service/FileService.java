@@ -1,6 +1,7 @@
 package org.example.caesar.service;
 
-import org.caesar.exception.CaesarException;
+
+import org.example.caesar.exception.CaesarException;
 
 import java.io.IOException;
 import java.nio.file.Files;

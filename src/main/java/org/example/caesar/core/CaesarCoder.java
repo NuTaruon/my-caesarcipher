@@ -1,10 +1,12 @@
 package org.example.caesar.core;
 
-import org.caesar.model.ProcessingResult;
-import org.caesar.service.ValidationService;
+
+import org.example.caesar.model.ProcessingResult;
+import org.example.caesar.service.ValidationService;
 
 public class CaesarCoder {
     private final ValidationService validationService;
+
 
     public CaesarCoder(ValidationService validationService) {
         this.validationService = validationService;

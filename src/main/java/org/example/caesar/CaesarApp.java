@@ -1,12 +1,10 @@
 package org.example.caesar;
 
-
-import org.caesar.core.CaesarCoder;
-import org.caesar.exception.CaesarException;
-import org.caesar.model.ProcessingResult;
-import org.caesar.service.FileService;
-import org.caesar.service.ValidationService;
-
+import org.example.caesar.core.CaesarCoder;
+import org.example.caesar.exception.CaesarException;
+import org.example.caesar.model.ProcessingResult;
+import org.example.caesar.service.FileService;
+import org.example.caesar.service.ValidationService;
 import java.util.Scanner;
 
 public class CaesarApp {

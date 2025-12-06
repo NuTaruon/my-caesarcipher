@@ -1,6 +1,7 @@
 package org.example.caesar.service;
 
-import org.caesar.exception.CaesarException;
+
+import org.example.caesar.exception.CaesarException;
 
 public class ValidationService {
 
