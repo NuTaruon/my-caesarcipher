@@ -60,7 +60,6 @@ public class CaesarApp {
 
     private void printWelcomeMassage(){
         System.out.println("CaesarCoder v1.0");
-
     }
 
     private void showMainMenu(){
@@ -137,7 +136,7 @@ public class CaesarApp {
         try {
         int number = Integer.parseInt(scanner.nextLine());
             caesarCoder.setPositionShift(number);
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             System.out.println("Получено не числовое значение");;
         }
     }
