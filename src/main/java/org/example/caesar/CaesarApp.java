@@ -1,5 +1,6 @@
 package org.example.caesar;
 
+import org.example.caesar.core.Alphabet;
 import org.example.caesar.core.CaesarCoder;
 import org.example.caesar.exception.CaesarException;
 import org.example.caesar.model.ProcessingResult;
@@ -28,17 +29,24 @@ public class CaesarApp {
         boolean running = true;
         printWelcomeMassage();
         while (running){
+            System.out.println("_".repeat(30));
             showMainMenu();
             String choice = scanner.nextLine();
 
             switch (choice){
-                case "1":
+                case "1": {
                     processEncodeFile();
                     break;
-                case "2":
+                }
+                case "2": {
                     processDecodeFile();
                     break;
+                }
                 case "3": {
+                    setKeyShift();
+                    break;
+                }
+                case "4": {
                     System.out.println("Всего доброго!");
                     running = false;
                     break;
@@ -59,7 +67,8 @@ public class CaesarApp {
         System.out.println("Главное меню:");
         System.out.println("1. Кодирование файла.");
         System.out.println("2. Декодирование файла.");
-        System.out.println("3. Выход.");
+        System.out.println("3. Задать новый ключ кодировки.");
+        System.out.println("4. Выход.");
         System.out.print("Введите нужную операцию: ");
 
     }
@@ -71,7 +80,7 @@ public class CaesarApp {
             String inputFile =  getInputPathFile();
             String outputFile = getOutputPathFile();
             String content = fileService.readFile(inputFile);
-            ProcessingResult result = caesarCoder.encodeText(content,10);
+            ProcessingResult result = caesarCoder.encodeText(content);
             fileService.writeFile(result.getOutputPreview(),outputFile);
             displaySuccessResult(result,inputFile,outputFile);
         } catch (CaesarException e) {
@@ -87,7 +96,7 @@ public class CaesarApp {
             String inputFile = getInputPathFile();
             String outputFile = getOutputPathFile();
             String content = fileService.readFile(inputFile);
-            ProcessingResult result = caesarCoder.decodeText(content, 10);
+            ProcessingResult result = caesarCoder.decodeText(content);
             fileService.writeFile(result.getOutputPreview(), outputFile);
             displaySuccessResult(result,inputFile,outputFile);
         }catch (CaesarException e){
@@ -120,5 +129,16 @@ public class CaesarApp {
 
     private void displayErrorMassage(String message){
         System.out.println("ERROR: " + message + "\n");
+    }
+
+    private void setKeyShift(){
+        System.out.println("Задать ключ кодировки (сейчас он равен: " + caesarCoder.getPositionShift() + ")");
+        System.out.println("Введите ключ от 1 до " + (Alphabet.ALPHABET.length-1)+ ":");
+        try {
+        int number = Integer.parseInt(scanner.nextLine());
+            caesarCoder.setPositionShift(number);
+        } catch (NullPointerException e) {
+            System.out.println("Получено не числовое значение");;
+        }
     }
 }

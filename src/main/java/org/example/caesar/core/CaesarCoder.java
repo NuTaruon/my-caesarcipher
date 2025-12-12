@@ -6,13 +6,13 @@ import org.example.caesar.service.ValidationService;
 
 public class CaesarCoder {
     private final ValidationService validationService;
-
+    private int positionShift = 1;
 
     public CaesarCoder(ValidationService validationService) {
         this.validationService = validationService;
     }
 
-    public ProcessingResult encodeText(String text, int positionShift){
+    public ProcessingResult encodeText(String text){
         validationService.validateTextEncode(text);
         char[] charsText = text.toLowerCase().toCharArray();
         StringBuilder coderCaesarText = new StringBuilder();
@@ -35,7 +35,7 @@ public class CaesarCoder {
         return new ProcessingResult(true,"Текст закодирован!", text,coderCaesarText.toString());
     }
 
-    public ProcessingResult decodeText(String caesarCode, int positionShift){
+    public ProcessingResult decodeText(String caesarCode){
         validationService.validateCaesarCode(caesarCode);
         char[] charsCaesar = caesarCode.toCharArray();
         StringBuilder decodeCaesarText = new StringBuilder();
@@ -64,5 +64,20 @@ public class CaesarCoder {
             return text;
         }
         return text.substring(0,120) + " ...";
+    }
+
+    public void setPositionShift(int positionShift) {
+        if(positionShift >= Alphabet.ALPHABET.length || positionShift <= 0) {
+            System.out.println("Задданное значение не поподает в нужный диапозон. Ключ взят по умолчанию и равен 1");
+            this.positionShift = 1;
+        }
+        else {
+            System.out.println("Новое значение установленно");
+            this.positionShift = positionShift;
+        }
+    }
+
+    public int getPositionShift() {
+        return positionShift;
     }
 }
