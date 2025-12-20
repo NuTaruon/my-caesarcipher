@@ -4,6 +4,8 @@ package org.example.caesar.core;
 import org.example.caesar.model.ProcessingResult;
 import org.example.caesar.service.ValidationService;
 
+
+
 public class CaesarCoder {
     private final ValidationService validationService;
     private int positionShift = 1;
@@ -12,26 +14,25 @@ public class CaesarCoder {
         this.validationService = validationService;
     }
 
-    public ProcessingResult encodeText(String text){
+    public ProcessingResult encodeText(String text) {
         validationService.validateTextEncode(text);
         char[] charsText = text.toLowerCase().toCharArray();
         StringBuilder coderCaesarText = new StringBuilder();
-        for(char roll: charsText){
-            boolean mark = false;
-            for (int i = 0; i < Alphabet.ALPHABET.length; i++) {
-                if(roll == Alphabet.ALPHABET[i]){
-                    if(i + positionShift < Alphabet.ALPHABET.length)
-                        coderCaesarText.append(Alphabet.ALPHABET[i+positionShift]);
-                    else {
-                        int result = i + positionShift - Alphabet.ALPHABET.length;
-                        coderCaesarText.append(Alphabet.ALPHABET[result]);
-                    }
-                    mark = true;
+
+        for (char roll : charsText) {
+            if (Alphabet.alphabetMap.containsKey(roll)) {
+                int positionChar = Alphabet.alphabetMap.get(roll).intValue();
+
+                if (positionChar + positionShift < Alphabet.ALPHABET.length)
+                    coderCaesarText.append(Alphabet.ALPHABET[positionChar + positionShift]);
+                else {
+                    int result = positionChar + positionShift - Alphabet.ALPHABET.length;
+                    coderCaesarText.append(Alphabet.ALPHABET[result]);
                 }
-            }
-            if(!mark)
+            } else
                 coderCaesarText.append(roll);
         }
+
         return new ProcessingResult(true,"Текст закодирован!", text,coderCaesarText.toString());
     }
 
@@ -39,23 +40,21 @@ public class CaesarCoder {
         validationService.validateCaesarCode(caesarCode);
         char[] charsCaesar = caesarCode.toCharArray();
         StringBuilder decodeCaesarText = new StringBuilder();
+
         for(char roll: charsCaesar){
-            boolean mark = false;
-            for (int i = 0; i < Alphabet.ALPHABET.length; i++) {
-                if(roll == Alphabet.ALPHABET[i]){
-                    if(i - positionShift >= 0)
-                        decodeCaesarText.append(Alphabet.ALPHABET[i-positionShift]);
+            if (Alphabet.alphabetMap.containsKey(roll)) {
+                int positionChar = Alphabet.alphabetMap.get(roll).intValue();
+
+                    if(positionChar - positionShift >= 0)
+                        decodeCaesarText.append(Alphabet.ALPHABET[positionChar-positionShift]);
                     else {
-                        int result = i-positionShift + Alphabet.ALPHABET.length;
+                        int result = positionChar-positionShift + Alphabet.ALPHABET.length;
                         decodeCaesarText.append(Alphabet.ALPHABET[result]);
                     }
-                    mark = true;
-                }
-
-          }
-            if(!mark)
+            } else
                 decodeCaesarText.append(roll);
-        }
+          }
+
         return new ProcessingResult(true, "Код успешно декодирован, ", caesarCode,decodeCaesarText.toString());
     }
 
@@ -68,7 +67,7 @@ public class CaesarCoder {
 
     public void setPositionShift(int positionShift) {
         if(positionShift >= Alphabet.ALPHABET.length || positionShift <= 0) {
-            System.out.println("Задданное значение не поподает в нужный диапозон. Ключ взят по умолчанию и равен 1");
+            System.out.println("Заданное значение не поподает в нужный диапозон. Ключ взят по умолчанию и равен 1");
             this.positionShift = 1;
         }
         else {
