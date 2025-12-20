@@ -13,7 +13,7 @@ public class ValidationService {
     }
 
     public void validateCaesarCode (String caesarCode) throws  CaesarException{
-        if(caesarCode == null && caesarCode.trim().isEmpty())
+        if(caesarCode == null || caesarCode.trim().isEmpty())
             throw new CaesarException("Шифр Цезаря не может быть пустым!");
     }
 }
