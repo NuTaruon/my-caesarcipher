@@ -134,7 +134,7 @@ public class CaesarApp {
         int number = Integer.parseInt(scanner.nextLine());
             caesarCoder.setPositionShift(number);
         } catch (Exception e) {
-            System.out.println("Получено не числовое значение");;
+            System.out.println("Получено не числовое значение");
         }
     }
 }
