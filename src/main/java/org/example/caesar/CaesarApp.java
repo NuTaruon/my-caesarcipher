@@ -6,6 +6,8 @@ import org.example.caesar.exception.CaesarException;
 import org.example.caesar.model.ProcessingResult;
 import org.example.caesar.service.FileService;
 import org.example.caesar.service.ValidationService;
+
+import java.util.Date;
 import java.util.Scanner;
 
 public class CaesarApp {
@@ -34,25 +36,14 @@ public class CaesarApp {
             String choice = scanner.nextLine();
 
             switch (choice){
-                case "1": {
-                    processEncodeFile();
-                    break;
-                }
-                case "2": {
-                    processDecodeFile();
-                    break;
-                }
-                case "3": {
-                    setKeyShift();
-                    break;
-                }
-                case "4": {
+                case "1" -> processEncodeFile();
+                case "2" -> processDecodeFile();
+                case "3" -> setKeyShift();
+                case "4" -> {
                     System.out.println("Всего доброго!");
                     running = false;
-                    break;
                 }
-                default:
-                    System.out.println("Неверный выбор! Попробуйте снова.");
+                default -> System.out.println("Неверный выбор! Попробуйте снова.");
             }
         }
 
@@ -78,14 +69,20 @@ public class CaesarApp {
             System.out.println("Кодирование файла");
             String inputFile =  getInputPathFile();
             String outputFile = getOutputPathFile();
+            Date startData = new Date();
             String content = fileService.readFile(inputFile);
+            Date readData = new Date();
+            System.out.println(readData.getTime()-startData.getTime() + " - время операции чтения из файла");
             ProcessingResult result = caesarCoder.encodeText(content);
+            Date coderData = new Date();
+            System.out.println(coderData.getTime()- readData.getTime() + " - время операции кодирование");
             fileService.writeFile(result.getOutputPreview(),outputFile);
+            Date writeData = new Date();
+            System.out.println(writeData.getTime() - coderData.getTime() + " - время на операцию записи в файл");
             displaySuccessResult(result,inputFile,outputFile);
         } catch (CaesarException e) {
             displayErrorMassage(e.getMessage());
         }
-
     }
 
     private void processDecodeFile(){
